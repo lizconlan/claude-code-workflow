@@ -1,6 +1,7 @@
-**/**/.DS_Store
+.DS_Store
 node_modules
 package*
 REQUIREMENTS.md
 SPEC.md
 .sprint_plan/*
+settings.*
