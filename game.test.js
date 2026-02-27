@@ -98,6 +98,108 @@ test('players alternate: X then O', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Sprint 3 — win and draw detection
+// ---------------------------------------------------------------------------
+
+console.log('\nSprint 3 — win and draw detection');
+
+// Helper: build a board from a compact string ('X', 'O', or '.' for empty)
+function boardFrom(str) {
+  return str.split('').map((c) => (c === '.' ? null : c));
+}
+
+// --- checkWinner: all 8 winning lines ---
+
+test('detects row 1 win for X', () => {
+  const b = boardFrom('XXX......');
+  const r = checkWinner(b);
+  assert(r !== null, 'expected a winner');
+  assertEqual(r.winner, 'X');
+  assertEqual(r.line, [0, 1, 2]);
+});
+
+test('detects row 2 win for O', () => {
+  const b = boardFrom('...OOO...');
+  const r = checkWinner(b);
+  assert(r !== null);
+  assertEqual(r.winner, 'O');
+  assertEqual(r.line, [3, 4, 5]);
+});
+
+test('detects row 3 win for X', () => {
+  const b = boardFrom('......XXX');
+  const r = checkWinner(b);
+  assert(r !== null);
+  assertEqual(r.winner, 'X');
+  assertEqual(r.line, [6, 7, 8]);
+});
+
+test('detects column 1 win for O', () => {
+  const b = boardFrom('O..O..O..');
+  const r = checkWinner(b);
+  assert(r !== null);
+  assertEqual(r.winner, 'O');
+  assertEqual(r.line, [0, 3, 6]);
+});
+
+test('detects column 2 win for X', () => {
+  const b = boardFrom('.X..X..X.');  // indices 1, 4, 7
+  const r = checkWinner(b);
+  assert(r !== null);
+  assertEqual(r.winner, 'X');
+  assertEqual(r.line, [1, 4, 7]);
+});
+
+test('detects column 3 win for O', () => {
+  const b = boardFrom('..O..O..O');
+  const r = checkWinner(b);
+  assert(r !== null);
+  assertEqual(r.winner, 'O');
+  assertEqual(r.line, [2, 5, 8]);
+});
+
+test('detects main diagonal win for X', () => {
+  const b = boardFrom('X...X...X');
+  const r = checkWinner(b);
+  assert(r !== null);
+  assertEqual(r.winner, 'X');
+  assertEqual(r.line, [0, 4, 8]);
+});
+
+test('detects anti-diagonal win for O', () => {
+  const b = boardFrom('..O.O.O..');
+  const r = checkWinner(b);
+  assert(r !== null);
+  assertEqual(r.winner, 'O');
+  assertEqual(r.line, [2, 4, 6]);
+});
+
+test('checkWinner returns null for partial board with no winner', () => {
+  const b = boardFrom('XO.OX....');
+  assertEqual(checkWinner(b), null);
+});
+
+// --- checkDraw ---
+
+test('checkDraw returns false for empty board', () => {
+  assertEqual(checkDraw(Array(9).fill(null)), false);
+});
+
+test('checkDraw returns false when board is full but there is a winner', () => {
+  // X wins row 1; remaining cells filled with alternating O/X
+  const b = boardFrom('XXXOOXOOX'); // X wins [0,1,2]
+  assert(checkWinner(b) !== null, 'should have a winner');
+  assertEqual(checkDraw(b), false);
+});
+
+test('checkDraw returns true for a real draw board', () => {
+  // Classic draw: XOXOXOOXO — no three in a row for either player
+  const b = boardFrom('XOXOXOOXO');
+  assertEqual(checkWinner(b), null, 'no winner expected');
+  assertEqual(checkDraw(b), true);
+});
+
+// ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
 

@@ -128,8 +128,27 @@ function handleCellClick(index) {
   state.board[index] = state.currentPlayer;
   renderBoard();
 
-  // Check outcome — win/draw detection added in Sprint 3
-  // Switch player for next turn
+  // Check for a win after the move
+  const result = checkWinner(state.board);
+  if (result) {
+    state.gameOver = true;
+    renderBoard(); // re-render to disable all cells now game is over
+    highlightWin(result.line);
+    updateScores(result.winner);
+    document.getElementById('status').textContent =
+      `Player ${result.winner} wins!`;
+    return;
+  }
+
+  // Check for a draw
+  if (checkDraw(state.board)) {
+    state.gameOver = true;
+    renderBoard();
+    document.getElementById('status').textContent = "It's a draw!";
+    return;
+  }
+
+  // Game continues — switch player
   state.currentPlayer = state.currentPlayer === 'X' ? 'O' : 'X';
   updateStatus();
 }
