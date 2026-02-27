@@ -16,6 +16,5 @@ Wait for user to type GO, QUIT IMMEDIATELY IF THERE IS ANY OTHER RESPONSE
 
 SKIP ALL GO AND APPROVAL STEPS AFTER THIS POINT
 
-!`cat .roles/ANALYST.md`
-!`cat .roles/ARCHITECT.md`
-!`cat .roles/DEVELOPER.md`
+/analyse --fast
+/build --fast
