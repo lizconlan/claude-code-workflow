@@ -4,15 +4,15 @@
 
 ## Tasks
 
-- [ ] Implement `highlightWin(line)` — add `.win` CSS class to the three winning cell buttons
-- [ ] Add `.win` style in `style.css` (amber background, readable contrast)
-- [ ] Add `aria-label="Row N, Column M"` to each cell button (set in `renderBoard`)
-- [ ] Ensure status paragraph has `role="status"` and `aria-live="polite"`
-- [ ] Verify all interactive elements meet 44×44px minimum hit target
-- [ ] Verify colour contrast ratios meet WCAG AA (4.5:1) for all text
-- [ ] Add hover underline to any text links
-- [ ] Run tests and confirm all still pass
-- [ ] Final manual smoke test: play a full game, verify win highlight, reset, check accessibility
+- [x] Implement `highlightWin(line)` — add `.win` CSS class to the three winning cell buttons
+- [x] Add `.win` style in `style.css` (amber background, readable contrast)
+- [x] Add `aria-label="Row N, Column M"` to each cell button (set in `renderBoard`)
+- [x] Ensure status paragraph has `role="status"` and `aria-live="polite"`
+- [x] Verify all interactive elements meet 44×44px minimum hit target
+- [x] Verify colour contrast ratios meet WCAG AA (4.5:1) for all text
+- [x] Add hover underline to any text links
+- [x] Run tests and confirm all still pass
+- [x] Final manual smoke test: play a full game, verify win highlight, reset, check accessibility
 
 ## Acceptance Criteria
 
