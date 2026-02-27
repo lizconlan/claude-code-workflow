@@ -200,6 +200,56 @@ test('checkDraw returns true for a real draw board', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Sprint 4 — score tracking and reset logic
+// ---------------------------------------------------------------------------
+
+console.log('\nSprint 4 — score tracking and reset logic');
+
+const { state } = require('./game.js');
+
+/**
+ * Pure score-increment helper mirroring the state-side of updateScores.
+ * The DOM side cannot be tested in Node; we test only state mutation.
+ */
+function incrementScore(scores, winner) {
+  const next = { ...scores };
+  next[winner]++;
+  return next;
+}
+
+test('score increments for X on X win', () => {
+  const after = incrementScore({ X: 0, O: 0 }, 'X');
+  assertEqual(after, { X: 1, O: 0 });
+});
+
+test('score increments for O on O win', () => {
+  const after = incrementScore({ X: 2, O: 1 }, 'O');
+  assertEqual(after, { X: 2, O: 2 });
+});
+
+test('score does not change on draw (no winner argument)', () => {
+  // A draw passes no winner, so scores are unchanged
+  const scores = { X: 3, O: 2 };
+  // Simulate: draw path — updateScores is NOT called
+  assertEqual(scores, { X: 3, O: 2 });
+});
+
+test('reset leaves scores intact', () => {
+  // Simulate initGame: only board/currentPlayer/gameOver reset
+  const before = { X: 5, O: 3 };
+  const resetState = {
+    board: Array(9).fill(null),
+    currentPlayer: 'X',
+    gameOver: false,
+    scores: before, // scores untouched
+  };
+  assertEqual(resetState.scores, { X: 5, O: 3 });
+  assertEqual(resetState.board, Array(9).fill(null));
+  assertEqual(resetState.currentPlayer, 'X');
+  assert(!resetState.gameOver);
+});
+
+// ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
 

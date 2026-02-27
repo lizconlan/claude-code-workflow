@@ -108,8 +108,16 @@ function updateStatus() {
 /** Stub: will be implemented in Sprint 5 */
 function highlightWin(_line) {}
 
-/** Stub: will be implemented in Sprint 4 */
-function updateScores() {}
+/**
+ * Increment the winner's score in state and refresh the scoreboard DOM.
+ * Only called on a win — draws do not affect scores.
+ * @param {string} winner - 'X' or 'O'
+ */
+function updateScores(winner) {
+  state.scores[winner]++;
+  document.getElementById('score-x').textContent = state.scores.X;
+  document.getElementById('score-o').textContent = state.scores.O;
+}
 
 // ---------------------------------------------------------------------------
 // Core game actions
@@ -184,5 +192,5 @@ if (typeof document !== 'undefined') {
 
 // Allow test file to import pure functions without running the browser bootstrap.
 if (typeof module !== 'undefined') {
-  module.exports = { checkWinner, checkDraw, state };
+  module.exports = { checkWinner, checkDraw, state, WIN_LINES };
 }
