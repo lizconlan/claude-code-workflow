@@ -1,0 +1,226 @@
+/* ============================================================
+   Design tokens — single source of truth for all colours/sizes
+   ============================================================ */
+:root {
+  --color-primary:   #1a1a2e; /* page background — dark navy        */
+  --color-surface:   #16213e; /* board/card surface — slightly lighter */
+  --color-accent:    #e94560; /* Player X — red-pink                */
+  --color-secondary: #4fc3f7; /* Player O — light blue              */
+  --color-text:      #eaeaea; /* body text — off-white              */
+  --color-muted:     #8892a4; /* secondary/muted text               */
+  --color-win:       #f5a623; /* winning cell highlight — amber      */
+  --color-border:    #0f3460; /* cell borders                       */
+  --color-btn-bg:    #0f3460; /* reset button background            */
+  --color-btn-hover: #1a4a8a; /* reset button hover state           */
+
+  --font-base:      'Segoe UI', system-ui, sans-serif;
+  --font-size-base: 18px;     /* WCAG readable minimum              */
+  --font-size-h1:   2rem;
+  --font-size-cell: 2.5rem;
+
+  --cell-min-size:  100px;    /* guarantees ≥44px accessible target */
+  --board-gap:      8px;
+  --border-radius:  8px;
+}
+
+/* ============================================================
+   Base reset
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-base);
+  font-size: var(--font-size-base);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+/* ============================================================
+   Typography
+   ============================================================ */
+h1 {
+  font-size: var(--font-size-h1);
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Text links — underline on hover as required */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
+header {
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+main {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* ============================================================
+   Scoreboard
+   ============================================================ */
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  padding: 0.75rem 2rem;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.score-label {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.score-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.score-divider {
+  font-size: 1rem;
+  color: var(--color-muted);
+}
+
+/* ============================================================
+   Status line
+   ============================================================ */
+.status {
+  font-size: 1.125rem;
+  min-height: 1.5em; /* prevents layout shift when text changes */
+  text-align: center;
+  color: var(--color-text);
+}
+
+/* ============================================================
+   Board
+   ============================================================ */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--board-gap);
+  width: 100%;
+}
+
+/* ============================================================
+   Cell buttons
+   ============================================================ */
+.cell {
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: var(--font-base);
+  font-size: var(--font-size-cell);
+  font-weight: 700;
+  min-height: var(--cell-min-size);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  /* Centre the X / O character */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell:hover:not(:disabled) {
+  background-color: var(--color-btn-hover);
+  border-color: var(--color-secondary);
+}
+
+.cell:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Player X mark colour */
+.cell.x {
+  color: var(--color-accent);
+}
+
+/* Player O mark colour */
+.cell.o {
+  color: var(--color-secondary);
+}
+
+/* Winning cells — amber highlight */
+.cell.win {
+  background-color: var(--color-win);
+  border-color: var(--color-win);
+  color: var(--color-primary); /* dark text on amber for contrast */
+}
+
+.cell:disabled {
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+/* ============================================================
+   Reset button
+   ============================================================ */
+.btn-reset {
+  background-color: var(--color-btn-bg);
+  border: 2px solid var(--color-secondary);
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: var(--font-base);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.625rem 2rem;
+  min-height: 44px; /* accessible hit target */
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-reset:hover,
+.btn-reset:focus-visible {
+  background-color: var(--color-btn-hover);
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.btn-reset:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
