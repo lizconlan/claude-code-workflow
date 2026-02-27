@@ -7,3 +7,10 @@ An example web app creation workflow from planning to step breakdown to a fully 
 ## Compact instructions
 
 When you are using compact, please focus on test output, code changes and any images that are not part of the codebase
+
+## Making commits
+
+When writing git commit messages, always use:
+git commit -m "your message here"
+
+Never use heredoc syntax or $() command substitution in git commands.
