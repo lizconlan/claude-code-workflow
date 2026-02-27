@@ -4,12 +4,12 @@
 
 ## Tasks
 
-- [ ] Implement `updateScores()` — increment winner's score in state, update scoreboard DOM
-- [ ] Call `updateScores()` when a winner is declared
-- [ ] Implement `initGame()` — resets board, currentPlayer, gameOver; does NOT reset scores
-- [ ] Wire the New Game button to `initGame()`
-- [ ] Write tests: score increments on win, score does not increment on draw, reset does not clear scores
-- [ ] Run tests and confirm all pass
+- [x] Implement `updateScores()` — increment winner's score in state, update scoreboard DOM
+- [x] Call `updateScores()` when a winner is declared
+- [x] Implement `initGame()` — resets board, currentPlayer, gameOver; does NOT reset scores
+- [x] Wire the New Game button to `initGame()`
+- [x] Write tests: score increments on win, score does not increment on draw, reset does not clear scores
+- [x] Run tests and confirm all pass
 
 ## Acceptance Criteria
 

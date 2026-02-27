@@ -105,8 +105,19 @@ function updateStatus() {
   statusEl.textContent = `Player ${state.currentPlayer}'s turn`;
 }
 
-/** Stub: will be implemented in Sprint 5 */
-function highlightWin(_line) {}
+/**
+ * Add the `.win` CSS class to each cell in the winning line.
+ * Called once when a winner is declared; `initGame` wipes the classes
+ * on reset via renderBoard (which rebuilds className from scratch).
+ * @param {number[]} line - array of 3 cell indices
+ */
+function highlightWin(line) {
+  const boardEl = document.getElementById('board');
+  line.forEach((index) => {
+    const cell = boardEl.querySelector(`[data-index="${index}"]`);
+    if (cell) cell.classList.add('win');
+  });
+}
 
 /**
  * Increment the winner's score in state and refresh the scoreboard DOM.

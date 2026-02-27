@@ -250,6 +250,39 @@ test('reset leaves scores intact', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Sprint 5 — win highlight coverage (pure logic; DOM highlight tested manually)
+// ---------------------------------------------------------------------------
+
+console.log('\nSprint 5 — accessibility and highlight invariants');
+
+const { WIN_LINES } = require('./game.js');
+
+test('WIN_LINES contains exactly 8 entries', () => {
+  assertEqual(WIN_LINES.length, 8);
+});
+
+test('every WIN_LINE has exactly 3 indices', () => {
+  WIN_LINES.forEach((line) => {
+    assert(line.length === 3, `Line ${JSON.stringify(line)} does not have 3 elements`);
+  });
+});
+
+test('all WIN_LINE indices are in range 0–8', () => {
+  WIN_LINES.forEach((line) => {
+    line.forEach((idx) => {
+      assert(idx >= 0 && idx <= 8, `Index ${idx} is out of range`);
+    });
+  });
+});
+
+test('no duplicate indices within a WIN_LINE', () => {
+  WIN_LINES.forEach((line) => {
+    const unique = new Set(line);
+    assert(unique.size === 3, `Duplicate index in line ${JSON.stringify(line)}`);
+  });
+});
+
+// ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
 
