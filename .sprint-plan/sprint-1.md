@@ -4,10 +4,10 @@
 
 ## Tasks
 
-- [ ] Create `index.html` with semantic HTML structure (header, main, board container, status paragraph, reset button, scoreboard)
-- [ ] Create `style.css` with CSS custom properties (design tokens), base reset, typography, and layout
-- [ ] Create `game.js` with state object and stubbed function signatures (no logic yet)
-- [ ] Create `game.test.js` with test runner scaffold and first placeholder test
+- [x] Create `index.html` with semantic HTML structure (header, main, board container, status paragraph, reset button, scoreboard)
+- [x] Create `style.css` with CSS custom properties (design tokens), base reset, typography, and layout
+- [x] Create `game.js` with state object and stubbed function signatures (no logic yet)
+- [x] Create `game.test.js` with test runner scaffold and first placeholder test
 
 ## Acceptance Criteria
 

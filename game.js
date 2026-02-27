@@ -64,11 +64,46 @@ function checkDraw(board) {
 // DOM helpers
 // ---------------------------------------------------------------------------
 
-/** Stub: will be implemented in Sprint 2 */
-function renderBoard() {}
+/**
+ * Sync the 9 cell buttons to the current board state.
+ * Creates buttons on first call; updates text/classes/disabled on every call.
+ */
+function renderBoard() {
+  const boardEl = document.getElementById('board');
 
-/** Stub: will be implemented in Sprint 2 */
-function updateStatus() {}
+  state.board.forEach((value, index) => {
+    // Reuse an existing button or create a new one
+    let cell = boardEl.querySelector(`[data-index="${index}"]`);
+    if (!cell) {
+      cell = document.createElement('button');
+      cell.type = 'button';
+      cell.className = 'cell';
+      cell.dataset.index = index;
+      // Accessible label: "Row N, Column M" (1-based)
+      const row = Math.floor(index / 3) + 1;
+      const col = (index % 3) + 1;
+      cell.setAttribute('aria-label', `Row ${row}, Column ${col}`);
+      cell.addEventListener('click', () => handleCellClick(index));
+      boardEl.appendChild(cell);
+    }
+
+    // Update content and classes to reflect current value
+    cell.textContent = value || '';
+    cell.className = 'cell' + (value ? ` ${value.toLowerCase()}` : '');
+    // Disable if the cell is taken or the game is over
+    cell.disabled = Boolean(value) || state.gameOver;
+  });
+}
+
+/**
+ * Update the status paragraph to show whose turn it is,
+ * or the outcome (win / draw).
+ */
+function updateStatus() {
+  const statusEl = document.getElementById('status');
+  if (state.gameOver) return; // outcome text set by handleCellClick
+  statusEl.textContent = `Player ${state.currentPlayer}'s turn`;
+}
 
 /** Stub: will be implemented in Sprint 5 */
 function highlightWin(_line) {}
@@ -80,11 +115,36 @@ function updateScores() {}
 // Core game actions
 // ---------------------------------------------------------------------------
 
-/** Stub: will be implemented in Sprint 2 */
-function handleCellClick(_index) {}
+/**
+ * Handle a player clicking cell at `index`.
+ * Validates the move, updates state, re-renders, and checks for win/draw.
+ * @param {number} index - 0–8
+ */
+function handleCellClick(index) {
+  // Ignore clicks when game is over or cell is already taken
+  if (state.gameOver || state.board[index]) return;
 
-/** Stub: will be implemented in Sprint 4 */
-function initGame() {}
+  // Record the move
+  state.board[index] = state.currentPlayer;
+  renderBoard();
+
+  // Check outcome — win/draw detection added in Sprint 3
+  // Switch player for next turn
+  state.currentPlayer = state.currentPlayer === 'X' ? 'O' : 'X';
+  updateStatus();
+}
+
+/**
+ * Reset the board for a new game, keeping cumulative scores intact.
+ * Player X always goes first.
+ */
+function initGame() {
+  state.board = Array(9).fill(null);
+  state.currentPlayer = 'X';
+  state.gameOver = false;
+  renderBoard();
+  updateStatus();
+}
 
 // ---------------------------------------------------------------------------
 // Bootstrap

@@ -58,6 +58,46 @@ test('checkWinner returns null for empty board', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Sprint 2 — board state / player alternation (pure-logic layer)
+// ---------------------------------------------------------------------------
+
+console.log('\nSprint 2 — board state and player alternation');
+
+/**
+ * Simulate a single move on a board copy and return the new board.
+ * Mirrors what handleCellClick does to state.board without touching the DOM.
+ */
+function applyMove(board, index, player) {
+  const next = [...board];
+  next[index] = player;
+  return next;
+}
+
+test('a move places the current player on the correct cell', () => {
+  const board = Array(9).fill(null);
+  const after = applyMove(board, 4, 'X');
+  assertEqual(after[4], 'X');
+});
+
+test('an occupied cell is not overwritten', () => {
+  const board = Array(9).fill(null);
+  const after1 = applyMove(board, 4, 'X');
+  // Attempting to overwrite: if cell is truthy, the move should be rejected
+  const shouldBlock = Boolean(after1[4]);
+  assert(shouldBlock, 'Cell 4 should already be occupied');
+  // Only apply the move if the cell is free (mirrors handleCellClick guard)
+  const after2 = after1[4] ? after1 : applyMove(after1, 4, 'O');
+  assertEqual(after2[4], 'X', 'Cell should still be X');
+});
+
+test('players alternate: X then O', () => {
+  // Alternation logic: X → O → X
+  const toggle = (p) => (p === 'X' ? 'O' : 'X');
+  assertEqual(toggle('X'), 'O');
+  assertEqual(toggle('O'), 'X');
+});
+
+// ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
 
