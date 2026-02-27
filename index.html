@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Tic-Tac-Toe</h1>
+    </header>
+
+    <main>
+      <!-- Running score totals for both players and draws -->
+      <section id="scoreboard" aria-label="Scoreboard">
+        <div class="score" id="score-x">X: 0</div>
+        <div class="score" id="score-draw">Draw: 0</div>
+        <div class="score" id="score-o">O: 0</div>
+      </section>
+
+      <!-- Live region so screen readers announce turn/result changes -->
+      <p id="status" aria-live="polite">Player X's turn</p>
+
+      <!-- 9 cell buttons are injected here by app.js -->
+      <section
+        id="board"
+        role="grid"
+        aria-label="Tic-Tac-Toe board"
+      ></section>
+
+      <button id="reset-btn" type="button">Play Again</button>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
