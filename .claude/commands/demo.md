@@ -2,7 +2,7 @@ When complete, output this message exactly:
 
 > **Preflight checks**
 
-  For best results, run with  --permission-mode acceptEdits
+  For best results, run with --permission-mode acceptEdits
 
   Please type GO to start, I'll take it from here (type anything else to stop)
 
