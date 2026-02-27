@@ -1,1 +1,207 @@
-/* Placeholder — styled in Sprint 2 */
+/* ============================================================
+   Design tokens
+   All colours, sizes and fonts defined once here so every
+   rule below references a variable rather than a raw value.
+   ============================================================ */
+:root {
+  --bg:            #f0f2f5;
+  --surface:       #ffffff;
+  --primary:       #4f46e5;        /* indigo-600 */
+  --primary-hover: #4338ca;        /* indigo-700 — 10% darker */
+  --x-color:       #dc2626;        /* red-600 */
+  --o-color:       #2563eb;        /* blue-600 */
+  --win-highlight: #fef08a;        /* yellow-200 */
+  --text:          #111827;        /* gray-900  */
+  --muted:         #6b7280;        /* gray-500  */
+  --border:        #d1d5db;        /* gray-300  */
+  --font:          system-ui, -apple-system, sans-serif;
+  --radius:        8px;
+}
+
+/* ============================================================
+   Reset / base
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;          /* WCAG: base readable size */
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 4rem;
+  gap: 0;
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+header {
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* ============================================================
+   Main layout
+   ============================================================ */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 360px;
+}
+
+/* ============================================================
+   Scoreboard
+   Three evenly-spaced score chips in a row.
+   ============================================================ */
+#scoreboard {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+}
+
+.score {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* Distinguish the two player scores by colour */
+#score-x    { color: var(--x-color); }
+#score-o    { color: var(--o-color); }
+#score-draw { color: var(--muted);   }
+
+/* ============================================================
+   Status message  (whose turn / who won / draw)
+   ============================================================ */
+#status {
+  font-size: 1.125rem;
+  font-weight: 600;
+  min-height: 1.75em;   /* reserve space so layout doesn't jump */
+  text-align: center;
+  color: var(--text);
+}
+
+/* ============================================================
+   Game board
+   3×3 CSS Grid. Cells are <button> elements injected by JS.
+   ============================================================ */
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows:    repeat(3, 100px);
+  gap: 6px;
+}
+
+/* ============================================================
+   Cells
+   ============================================================ */
+.cell {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 2.25rem;    /* large mark, easily readable */
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.1s ease;
+
+  /* centre the X / O mark */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tint on hover — only when the cell is enabled */
+.cell:not(:disabled):hover {
+  background: #eef2ff;   /* indigo-50 */
+}
+
+/* Visible keyboard focus ring (WCAG 2.4.7) */
+.cell:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* X mark colour */
+.cell[data-mark="X"] {
+  color: var(--x-color);
+}
+
+/* O mark colour */
+.cell[data-mark="O"] {
+  color: var(--o-color);
+}
+
+/* Winning combination highlight */
+.cell.win {
+  background: var(--win-highlight);
+}
+
+/* Occupied / game-over cells: no pointer */
+.cell:disabled {
+  cursor: default;
+}
+
+/* ============================================================
+   Reset button
+   ============================================================ */
+#reset-btn {
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.625rem 1.75rem;
+  cursor: pointer;
+  transition: background 0.1s ease;
+  /* text-decoration not needed on a <button>; underline on hover
+     applies to anchor links per NFR-02 */
+}
+
+#reset-btn:hover {
+  background: var(--primary-hover);
+}
+
+#reset-btn:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Text links (none in current markup, but rule added per NFR-02
+   so any future <a> inherits the correct hover underline)
+   ============================================================ */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-family: var(--font);
+}
+
+a:hover {
+  text-decoration: underline;
+}
