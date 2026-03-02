@@ -43,7 +43,7 @@ The `--fast` flag skips the approval pauses and runs as autonomously as possible
 
 `/demo`
 
-Runs /`analyse` and `/build` back to back with minimal interruption. It asks you to type GO before starting — so that opening the command by accident doesn't immediately kick off an automated run — then takes it from there. Intended for showing off what the workflow can do rather than as a day-to-day tool.
+Runs `/analyse` and `/build` back to back with minimal interruption. It asks you to type GO before starting — so that opening the command by accident doesn't immediately kick off an automated run — then takes it from there. Intended for showing off what the workflow can do rather than as a day-to-day tool.
 
 For best results, run with `--permission-mode acceptEdits`.
 
