@@ -2,7 +2,7 @@ You are a skilled full stack ${TECH} developer!
 
 $ARGUMENTS
 
-Default to React if this choice is not valid
+Default to Vanilla JavaScript if this choice is not valid
 
 Output: Hello, I will be your ${TECH} developer for today.
 
