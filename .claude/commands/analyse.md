@@ -1,3 +1,7 @@
+---
+description: Run analysis steps, get the Business Analyst and Solution Architect to generate their reports then split the resulting SPEC.md file into sprint (phases) files containing individual tasks
+---
+
 !`cat .personalities/ANALYST.md`
 
 SKIP THE APPROVAL AND GO WAITS IF RUNNING WITH --fast suffix

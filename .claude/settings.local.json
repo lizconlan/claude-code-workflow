@@ -1,15 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
+      "Bash(git: *)",
       "Bash(node:*)",
       "Bash(npm test:*)",
       "WebSearch",
       "Bash(npx jest:*)",
       "Bash(npm install:*)",
       "Bash(npm create:*)",
-      "Edit(/src/**)"
+      "Edit(/src/**)",
+      "Skill(analyse)",
+      "Skill(build)"
     ]
   }
 }
