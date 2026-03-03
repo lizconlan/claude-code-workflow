@@ -89,6 +89,35 @@
       transition: background 0.1s ease;
     }
 
+    /* ── Cell states & polish ────────────────────────────────── */
+
+    /* Hover: only on empty, interactive cells.
+       .taken cells have pointer-events:none so :hover never fires on them. */
+    .cell:not(.taken):hover {
+      background: #e8f4fd;   /* Light blue tint — clearly interactive, not aggressive */
+    }
+
+    /* Taken cells: disable pointer so no hover flicker after a move */
+    .cell.taken {
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* X mark — strong blue (contrast ratio > 4.5:1 on white) */
+    .cell.x {
+      color: #1565c0;
+    }
+
+    /* O mark — strong red (contrast ratio > 4.5:1 on white) */
+    .cell.o {
+      color: #c62828;
+    }
+
+    /* Win highlight — warm gold background; dark text still readable on it */
+    .cell.winner {
+      background: #fff176;   /* AA-compliant: dark marks on light yellow */
+    }
+
     /* ── Restart button ───────────────────────────────────────── */
     /* Styled consistently with the board colour scheme.
        Using a neutral dark colour that contrasts well (4.5:1+) on the button. */
