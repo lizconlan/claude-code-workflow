@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tic-Tac-Toe</title>
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      /* Centre everything on the page, both axes */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      /* Readable base font with good contrast */
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 1rem;
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Application root ────────────────────────────────────── -->
+  <main id="app" aria-label="Tic-Tac-Toe game">
+    <h1>Tic-Tac-Toe</h1>
+  </main>
+
+  <script>
+    // ── Game module skeleton ──────────────────────────────────
+    // All game logic will be implemented as pure functions (no DOM access).
+    // The UI controller layer handles all DOM interaction.
+
+    // Placeholder — will be replaced in Sprint 03
+    console.log('Tic-Tac-Toe initialised');
+  </script>
+</body>
+</html>
