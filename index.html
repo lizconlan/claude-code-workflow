@@ -135,12 +135,149 @@
   </main>
 
   <script>
-    // ── Game module skeleton ──────────────────────────────────
-    // All game logic will be implemented as pure functions (no DOM access).
-    // The UI controller layer handles all DOM interaction.
-    // Logic implemented in Sprint 03; event wiring in Sprint 04.
+    // ═══════════════════════════════════════════════════════════
+    //  GAME ENGINE  — pure functions, zero DOM access
+    //  All functions take state as input and return new values;
+    //  they never mutate their arguments (immutable pattern).
+    // ═══════════════════════════════════════════════════════════
 
-    console.log('Tic-Tac-Toe initialised');
+    // All 8 winning combinations expressed as board-index triples.
+    // Defined once at module scope so they're computed only once.
+    const WIN_COMBINATIONS = [
+      [0, 1, 2], // top row
+      [3, 4, 5], // middle row
+      [6, 7, 8], // bottom row
+      [0, 3, 6], // left column
+      [1, 4, 7], // middle column
+      [2, 5, 8], // right column
+      [0, 4, 8], // diagonal ↘
+      [2, 4, 6], // diagonal ↙
+    ];
+
+    /**
+     * initState — returns a brand-new game state object.
+     * Centralising initial state here means a single source of
+     * truth: restart just calls this rather than resetting fields
+     * one by one, avoiding partial-reset bugs.
+     */
+    function initState() {
+      return {
+        board: Array(9).fill(null), // null | 'X' | 'O' for each cell (index 0–8)
+        currentPlayer: 'X',         // X always goes first per spec
+        winner: null,               // null | 'X' | 'O' | 'draw'
+        winningCells: [],           // indices of the three winning cells (empty if no win)
+        gameOver: false,
+      };
+    }
+
+    /**
+     * checkWinner — evaluates all 8 win combinations against board.
+     * Returns { winner: 'X'|'O', winningCells: [i,j,k] } if found,
+     * or null if no winner yet.
+     * Pure: reads board array, returns a value, no side effects.
+     */
+    function checkWinner(board) {
+      for (const [a, b, c] of WIN_COMBINATIONS) {
+        // All three cells must be the same non-null mark
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          return { winner: board[a], winningCells: [a, b, c] };
+        }
+      }
+      return null; // no winner found
+    }
+
+    /**
+     * checkDraw — returns true when the board is full and there is
+     * no winner. Caller is responsible for checking winner first so
+     * we don't need to re-evaluate win conditions here.
+     */
+    function checkDraw(board) {
+      // every() short-circuits on the first null, keeping this fast
+      return board.every(cell => cell !== null);
+    }
+
+    /**
+     * makeMove — applies a player's move at `index` and returns the
+     * resulting game state. Does NOT mutate the passed-in state.
+     *
+     * Guard conditions (returns state unchanged):
+     *   - cell already occupied
+     *   - game is already over
+     */
+    function makeMove(state, index) {
+      // Guard: ignore invalid moves
+      if (state.gameOver || state.board[index] !== null) {
+        return state;
+      }
+
+      // Build a new board with the mark placed (slice creates a copy)
+      const board = state.board.slice();
+      board[index] = state.currentPlayer;
+
+      // Check outcomes — order matters: win check before draw check
+      const winResult = checkWinner(board);
+      if (winResult) {
+        return {
+          ...state,
+          board,
+          winner: winResult.winner,
+          winningCells: winResult.winningCells,
+          gameOver: true,
+        };
+      }
+
+      if (checkDraw(board)) {
+        return {
+          ...state,
+          board,
+          winner: 'draw',
+          winningCells: [],
+          gameOver: true,
+        };
+      }
+
+      // Game continues — toggle the current player
+      return {
+        ...state,
+        board,
+        currentPlayer: state.currentPlayer === 'X' ? 'O' : 'X',
+      };
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    //  QUICK SELF-TEST  (runs once on page load, logs to console)
+    //  Validates the game engine before the UI wires up.
+    //  Removed in production build; kept here as living docs.
+    // ═══════════════════════════════════════════════════════════
+    (function selfTest() {
+      // Test: X wins top row
+      let s = initState();
+      s = makeMove(s, 0); // X
+      s = makeMove(s, 3); // O
+      s = makeMove(s, 1); // X
+      s = makeMove(s, 4); // O
+      s = makeMove(s, 2); // X — wins top row
+      console.assert(s.winner === 'X', 'FAIL: X should win top row');
+      console.assert(s.winningCells.join() === '0,1,2', 'FAIL: winning cells 0,1,2');
+      console.assert(s.gameOver === true, 'FAIL: gameOver should be true');
+
+      // Test: draw
+      // Target board: X O X / X O O / O X X  — no three-in-a-row for either player
+      // Move sequence verified to produce no win before all 9 cells are filled:
+      //   X:0, O:1, X:3, O:4, X:8, O:6, X:2, O:5, X:7
+      let d = initState();
+      [0, 1, 3, 4, 8, 6, 2, 5, 7].forEach((i) => { d = makeMove(d, i); });
+      console.assert(d.winner === 'draw', 'FAIL: should be a draw');
+
+      // Test: occupied cell is ignored
+      let t = initState();
+      t = makeMove(t, 0); // X plays 0
+      t = makeMove(t, 0); // O tries to play 0 — should be ignored
+      console.assert(t.board[0] === 'X', 'FAIL: occupied cell should not be overwritten');
+      console.assert(t.currentPlayer === 'O', 'FAIL: still O\'s turn after invalid move');
+
+      console.log('Game engine self-test: all assertions passed');
+    })();
   </script>
 </body>
 </html>
