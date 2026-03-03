@@ -278,6 +278,91 @@
 
       console.log('Game engine self-test: all assertions passed');
     })();
+
+    // ═══════════════════════════════════════════════════════════
+    //  UI CONTROLLER  — all DOM access lives here
+    //  Reads game state produced by the engine and reflects it
+    //  in the DOM. Also wires up all user interaction.
+    // ═══════════════════════════════════════════════════════════
+
+    // Cache DOM references once — querying the DOM on every render
+    // is unnecessary overhead when the elements never change.
+    const boardEl   = document.getElementById('board');
+    const statusEl  = document.getElementById('status');
+    const restartEl = document.getElementById('restart');
+
+    // Application state — single mutable reference, replaced (not mutated)
+    // on every move so the engine's immutability contract is respected.
+    let state = initState();
+
+    /**
+     * render — synchronises the DOM with the current game state.
+     * Called after every state change (move or restart).
+     * Rebuilds cell elements each time for simplicity; at 9 cells
+     * this is negligible overhead.
+     */
+    function render(s) {
+      // ── Board cells ────────────────────────────────────────
+      boardEl.innerHTML = ''; // clear previous cells
+
+      s.board.forEach((mark, index) => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.setAttribute('role', 'gridcell');
+        cell.setAttribute('aria-label', `Cell ${index + 1}${mark ? ', ' + mark : ''}`);
+
+        if (mark) {
+          cell.textContent = mark;
+          cell.classList.add('taken', mark.toLowerCase()); // .x or .o for colour coding
+        }
+
+        // Highlight winning cells
+        if (s.winningCells.includes(index)) {
+          cell.classList.add('winner');
+        }
+
+        // Disable interaction: occupied cells OR game over
+        // Using pointer-events + aria-disabled rather than a real <button>
+        // because the cell grid is better represented as a grid of divs.
+        if (mark || s.gameOver) {
+          cell.classList.add('taken');
+          cell.setAttribute('aria-disabled', 'true');
+        } else {
+          // Only attach listener to playable cells — avoids wasted calls
+          cell.addEventListener('click', () => handleCellClick(index));
+        }
+
+        boardEl.appendChild(cell);
+      });
+
+      // ── Status message ─────────────────────────────────────
+      if (s.winner === 'draw') {
+        statusEl.textContent = "It's a draw!";
+      } else if (s.winner) {
+        statusEl.textContent = `Player ${s.winner} wins!`;
+      } else {
+        statusEl.textContent = `Player ${s.currentPlayer}'s turn`;
+      }
+    }
+
+    /**
+     * handleCellClick — called when a playable cell is clicked.
+     * Delegates move logic entirely to the pure engine function,
+     * then re-renders with the new state.
+     */
+    function handleCellClick(index) {
+      state = makeMove(state, index);
+      render(state);
+    }
+
+    // Restart: replace state with a fresh game and re-render
+    restartEl.addEventListener('click', () => {
+      state = initState();
+      render(state);
+    });
+
+    // ── Initial render on page load ─────────────────────────
+    render(state);
   </script>
 </body>
 </html>
