@@ -90,7 +90,7 @@ The demo leaves some choices open - colours, layout details - and the agent fill
 Once the app is built, you can keep going in Claude Code. Ask it to add a dark mode toggle, or to use a specific blue and red for the X's and O's that work well in both light and dark themes. You don't have to start over to extend what the workflow produced.
 
 **Start over with better instructions**
-Throw away the generated code and rerun `/demo` with a richer brief. Adding "give it a dark mode toggle and choose colours for the X's and O's that look good in both modes" to the Analyst prompt will get you much closer to a finished result first time. Compare the two outputs.
+Throw away the generated code and rerun `/demo` with a richer brief. Adding something like "give it a dark mode toggle" to the Analyst prompt - and again, steering the colour choides - will get you much closer to a finished result first time. Compare the two outputs.
 
 **Replace the project entirely**
-Swap out the tic-tac-toe brief in `.roles/ANALYST.md` for something you actually want to build. Keep it small to start — the workflow is designed for projects that fit comfortably within a single session.
+Swap out the tic-tac-toe brief in `.roles/ANALYST.md` for something you actually want to build. Keep it small to start - the workflow is designed for projects that fit comfortably within a single session.
